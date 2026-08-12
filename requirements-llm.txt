@@ -1,0 +1,4 @@
+# Optional LLM provider SDKs. The system runs fully with the built-in Mock
+# adapter; install one of these only when you want real model calls.
+anthropic>=0.39
+openai>=1.30

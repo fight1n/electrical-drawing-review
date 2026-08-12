@@ -1,0 +1,50 @@
+# ============================================================================
+# Electrical Drawing Review — global configuration
+# All knobs here can be overridden by environment variables (see .env.example).
+# ============================================================================
+
+llm:
+  provider: mock                # mock | claude | openai
+  claude_model: claude-sonnet-4-20250514
+  openai_model: gpt-4o
+  temperature: 0.0
+  max_tokens: 2048
+  timeout_seconds: 30
+
+runtime:
+  max_concurrency: 8            # max parallel review coroutines (asyncio.gather)
+  enable_rerank: true           # two-stage retrieval: LLM semantic rerank
+  doclayout_weights: ""         # path to fine-tuned PP-DocLayout weights
+  mineru_endpoint: ""           # MinerU server URL; empty -> built-in fallback
+  trace_dir: outputs/trace      # full-chain Trace audit output
+
+# Rule categories drive the three-stage dynamic context trimming.
+# budget tokens are per-stage caps used by the context builder.
+rules:
+  categories:
+    geometry_size:
+      description: 几何尺寸与间距
+      context_budget: 1200
+      requires: [bbox, dims]
+    symbol_annotation:
+      description: 符号与标注
+      context_budget: 1000
+      requires: [symbols, annotations]
+    parameter_threshold:
+      description: 参数阈值与选型
+      context_budget: 1400
+      requires: [params, ratings]
+    wiring_topology:
+      description: 拓扑与接线
+      context_budget: 1600
+      requires: [nets, connections]
+
+standards:
+  corpus_dir: src/edr/standards/sample
+  # build inverted index on startup for exact-match recall
+  build_index: true
+
+report:
+  title: 电气图纸自动化审核报告
+  target_seconds: 3.0           # PDF generation budget
+  include_screenshots: true

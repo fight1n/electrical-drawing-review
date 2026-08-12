@@ -1,0 +1,19 @@
+# ===== Core (always required) =====
+pyyaml>=6.0
+pydantic>=2.5
+reportlab>=4.0
+fastapi>=0.110
+uvicorn[standard]>=0.27
+httpx>=0.27
+
+# ===== Optional LLM providers (pip install -r requirements-llm.txt) =====
+# anthropic>=0.39
+# openai>=1.30
+
+# ===== Optional heavyweight parsers (graceful fallback if absent) =====
+# mineru>=1.0          # multimodal PDF/DOC parsing
+# ezdxf>=1.1           # DXF vector parsing
+# paddleocr>=2.7       # PP-DocLayout inference backend
+
+# ===== Dev =====
+pytest>=8.0
